@@ -28,15 +28,16 @@ def max_pairwise_product_second_algo(numbers):
 
     return max_product
 
-#Another alternative algorithm, this algorithm is fast but changes the input list, so is not optimal
+#Another alternative algorithm
 def max_pairwise_product_third_algo(numbers):
-    n = len(numbers)
-    max_first = max(numbers)
-    numbers.remove(max_first)
-    if len(numbers) < n - 1:
+    copy_numbers = numbers.copy()
+    n = len(copy_numbers)
+    max_first = max(copy_numbers)
+    copy_numbers.remove(max_first)
+    if len(copy_numbers) < n - 1:
         max_second = max_first
     else:
-        max_second = max(numbers)
+        max_second = max(copy_numbers)
     max_product = max_first * max_second
     return max_product
 
@@ -70,12 +71,12 @@ def stress_test3():
     while True:
         numbers = random.randint(1000000, size=(1000))
         numbers = numbers.tolist()
-        if max_pairwise_product_second_algo(numbers) == max_pairwise_product_third_algo(numbers):
+        if max_pairwise_product_third_algo(numbers) == max_pairwise_product_second_algo(numbers):
             print(numbers)
             print(max_pairwise_product_third_algo(numbers))
         else:
             print(numbers)
-            print(max_pairwise_product_second_algo(numbers), max_pairwise_product_third_algo(numbers))
+            print(max_pairwise_product_third_algo(numbers), max_pairwise_product_second_algo(numbers))
             print("error")
             break
 
