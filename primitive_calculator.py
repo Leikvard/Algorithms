@@ -2,7 +2,7 @@
 import sys
 import math
 #dynamic programming
-def optimal_sequence(n):
+def optimal_sequence_dic(n):
     seq = []
     #check is a dictionary where the key represents the number to be obtained by primitive calculation
     #where is the value is a list where the first integer represents the previous step to obtain the key and the second integer represents the number of operations required
@@ -40,6 +40,55 @@ def optimal_sequence(n):
     seq.append(1)
     seq.reverse()
     return seq
+#using two arrays instead of dict
+def optimal_sequence(n):
+    seq = []
+    #check is a dictionary where the key represents the number to be obtained by primitive calculation
+    #where is the value is a list where the first integer represents the previous step to obtain the key and the second integer represents the number of operations required
+    pointer = [-1, 1, 1, 1]
+    num_op = [-1, 0, 1, 1]
+    for x in range(4, n + 1):
+        #num1, 2, 3 if the minimum number of operations required to obtain n - 1, n // 2 or n // 3
+        num1 = num_op[x - 1]
+        if x % 2 == 0:
+            num2 = num_op[x // 2]
+            if x % 3 == 0:
+                num3 = num_op[x // 3]
+                if num3 == min(num1, num2, num3):
+                    pointer.append(x // 3)
+                    num_op.append(num3 + 1)
+                elif num2 < num1:
+                    pointer.append(x // 2)
+                    num_op.append(num2 + 1)
+                else:
+                    pointer.append(x - 1)
+                    num_op.append(num1 + 1)
+            elif num2 <= num1:
+                pointer.append(x // 2)
+                num_op.append(num2 + 1)
+            else:
+                pointer.append(x - 1)
+                num_op.append(num1 + 1)
+        elif x % 3 == 0:
+            num3 = num_op[x // 3]
+            if num3 <= num1:
+                pointer.append(x // 3)
+                num_op.append(num3 + 1)
+            else:
+                pointer.append(x - 1)
+                num_op.append(num1 + 1)
+        else:
+            pointer.append(x - 1)
+            num_op.append(num1 + 1)
+    i = n
+    while i > 1:
+        seq.append(i)
+        last = pointer[i]
+        i = last
+    seq.append(1)
+    seq.reverse()
+    return seq
+
 #using recursive call, slow run time
 def optimal_sequence_rec(n):
     sequence = []
