@@ -21,7 +21,7 @@ def lcs2(a, b):
                 matrix[i, j] = max(ins, dele, match)
             else:
                 matrix[i, j] = max(ins, dele, mis)				
-    return matrix[i, j]
+    return matrix[m, n]
 
 def lcs(a, b):
     m = len(a) #record the length of sequence a
